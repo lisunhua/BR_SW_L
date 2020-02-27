@@ -3,7 +3,7 @@ TESTNAME     = $(notdir $(PWD))
 OUTDIR       = ./
 
 #SOFTWARE DIRECTORY
-SOFTWARE_DIR  = ../../sw/perip
+SOFTWARE_DIR  = ../../perip
 
 include $(SOFTWARE_DIR)/make/makefile.*
 # ---------------------------------------------------------------------------------------
