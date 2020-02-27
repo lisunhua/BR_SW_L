@@ -31,6 +31,7 @@
 #include "log_uart_config.h"
 
 
+
 int main (void)
 {
     // LOG UART INIT
