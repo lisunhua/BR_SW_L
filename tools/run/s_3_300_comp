@@ -1,0 +1,15 @@
+#!/bin/bash
+
+username=`whoami`
+timestamp=`date +%Y.%m.%d_%H:%M:%S`
+dir=`pwd`
+dir_name=${dir##*/}
+dir_tral=${dir_name#*n}
+
+echo $dir_tral
+rm -f .start.vcs_build_s3300 vcs_build_s3300
+make vcs_build_s3300 \
+ENABLE_UPF_FLOW=1 \
+TC=s_3_300_iomux_function \
+VCS_BUILD_NAME=s3300 \
+WORK_DIR=$dir/../work$dir_tral

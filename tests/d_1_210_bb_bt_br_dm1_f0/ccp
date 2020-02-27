@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#Fname=$(cd 'dirname $0';pwd)
+fpath=$(pwd)
+fname=${fpath##*/}
+echo ${fname}
+
+
+echo "shell Run!";
+echo "pam: $0";
+echo "pam: $1";
+echo "pam: $2";
+
+hexclt="_clt"
+hexsvr="_svr"
+
+rm  $fname$hexclt.bin
+rm  $fname$hexclt*
+
+rm  $fname$hexsvr.bin
+rm  $fname$hexsvr*
+
+cat  /upload_data/lisunhua/B_Test/BR003_BRRX.bin > ./${fname}${hexclt}.bin
+cat  /upload_data/lisunhua/B_Test/BR003_BRTX.bin > ./${fname}${hexsvr}.bin
+
+#chmod 644 $fname$hexclt.bin  $fname$hexsvr.bin
+python ./DBhex.py $fname$hexclt.bin
+python ./DBhex.py $fname$hexsvr.bin

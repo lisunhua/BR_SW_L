@@ -1,0 +1,103 @@
+`include "chip_defines.sv"
+
+class handle_base extends chip_base_test;
+  `uvm_component_utils(handle_base)
+
+   uvm_reg_data_t  run_id   = 'h1;
+   uvm_reg_data_t  run_step = 'h1;
+   uvm_reg_data_t  run_flag=1;
+   uvm_reg_data_t  run_status=0; 
+
+   function new(string name, uvm_component parent);
+         super.new(name, parent);
+      endfunction: new
+
+   task data_phase(uvm_phase phase);
+
+      uvm_status_e   status;
+      
+      uvm_reg_data_t read_cmd; 
+      uvm_reg_data_t read_data;
+      uvm_reg_data_t write_cmd;
+      uvm_reg_data_t write_data;
+
+      phase.raise_objection(phase);   
+
+      //--------------------------------- Strat Test ----------------------------------//
+      while(run_flag) begin
+
+         sa_env.chip_reg.MESSAGE_TB.read(.status(status),.value(read_cmd),.path(UVM_BACKDOOR));
+         sa_env.chip_reg.MESSAGE_CPU.read(.status(status),.value(read_data),.path(UVM_BACKDOOR));
+
+         if(run_status != read_cmd) begin
+            `uvm_info("SOC",$psprintf("Rcmd=%0x,Rdata=%0x\n", read_cmd, read_data),UVM_LOW)
+
+         if(read_cmd == 'h4 && read_data == 'h1) begin
+            write_data  = run_id;
+            write_cmd   ='h1;
+            #10us;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));
+         end
+
+         else if(read_cmd == 'h1) begin
+         
+           
+         end
+
+         else if(read_cmd == 'h3) begin
+            write_data  ='h1;
+            write_cmd   =read_cmd;
+            #10us;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            if(read_data == 'h1)
+               `uvm_info("TB",$psprintf("TB Case Succeed!\n"),UVM_LOW)
+            else
+               `uvm_info("TB",$psprintf("TB Case False !\n"),UVM_LOW)
+
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));
+            run_flag = 0;// Can Stop Case Run
+         end
+
+         else if(read_cmd == 'h5) begin
+            write_data  ='h1;
+            write_cmd   =read_cmd;
+            #10us;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));
+            #500us;
+            write_data  ='h01;
+            write_cmd   ='h6;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));
+
+         end
+         else if(read_cmd == 'h2) begin
+            write_data  =run_step;
+            write_cmd   =read_cmd;
+            #10us;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));            
+         end
+
+         else begin
+            write_data  ='h1;
+            write_cmd   =read_cmd;
+            #10us;
+            `uvm_info("TB",$psprintf("Wcmd=%0x,Wdata=%0x\n", write_cmd, write_data),UVM_LOW)
+            sa_env.chip_reg.DATA3.write(.status(status), .value(write_data), .path(UVM_BACKDOOR));
+            sa_env.chip_reg.DATA2.write(.status(status), .value(write_cmd), .path(UVM_BACKDOOR));
+          end
+          run_status = read_cmd;
+        end
+        #10us;
+      end
+      #1_000us;
+      phase.drop_objection(phase); 
+   endtask:data_phase                    
+endclass:handle_base

@@ -1,0 +1,2 @@
++define+SV_TEST
+./inputs/soc_top/sim/tests/s_1_251_bb_rom_usb_sacn/user_def.sv

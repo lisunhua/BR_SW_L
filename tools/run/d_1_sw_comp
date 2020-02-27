@@ -1,0 +1,14 @@
+#!/bin/bash
+
+username=`whoami`
+timestamp=`date +%Y.%m.%d_%H:%M:%S`
+dir=`pwd`
+dir_name=${dir##*/}
+dir_tral=${dir_name#*n}
+
+echo $dir_tral
+rm -f .start.vcs_build_dual_sw vcs_build_dual_sw
+make vcs_build_dual_sw \
+ENABLE_UPF_FLOW=1 \
+VCS_BUILD_NAME=sw \
+WORK_DIR=$dir/../work$dir_tral

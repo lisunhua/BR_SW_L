@@ -1,0 +1,10 @@
+run 10us
+force CLT.ext_rstn 0
+force SVR.ext_rstn 0
+
+
+run 3000us
+force CLT.ext_rstn 1
+run 1000us
+force SVR.ext_rstn 1
+run

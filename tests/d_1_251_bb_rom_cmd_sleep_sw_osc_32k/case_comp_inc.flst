@@ -1,0 +1,2 @@
+ +define+SV_TEST  +define+VERIFY_CMD
+./inputs/soc_top/sim/tests/d_1_251_bb_rom_cmd_sleep_sw_osc_32k/user_def.sv

@@ -1,0 +1,219 @@
+# Program file
+TESTNAME     = $(notdir $(PWD))
+OUTDIR       = ./
+
+#SOFTWARE DIRECTORY
+SOFTWARE_DIR  = ../../../sw/perip
+
+include $(SOFTWARE_DIR)/make/makefile.*
+# ---------------------------------------------------------------------------------------
+# gcc options
+GNG_CC      = arm-none-eabi-gcc
+GNU_OBJDUMP = arm-none-eabi-objdump
+GNU_OBJCOPY = arm-none-eabi-objcopy
+
+# ---------------------------------------------------------------------------------------
+GNU_CC_FLAGS = -g -O0 -std=c99  -mthumb -mcpu=cortex-m3 --specs=nosys.specs \
+--specs=nano.specs -Wl,--gc-sections -D__STARTUP_CLEAR_BSS
+# ---------------------------------------------------------------------------------------
+#$(SOFTWARE_DIR)
+SORCE_FILE    :=	$(SOFTWARE_DIR)/arch/startup/system_BR003.c \
+					$(SOFTWARE_DIR)/arch/common/src/cm_printf.c \
+					$(SOFTWARE_DIR)/arch/common/src/qspi_icfg.c \
+					$(SOFTWARE_DIR)/arch/core/source/BR00x_nvic.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_uart.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_clock.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_dma.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_gpio.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_i2c.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_i2c_eeprom.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_i2s.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_rf.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_rtc.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_spi_flash.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_ssi.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_ssi_common.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_ssic.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_timers.c \
+					$(SOFTWARE_DIR)/arch/driver/source/BR00x_wdt.c \
+					$(SOFTWARE_DIR)/arch/verify/verify_master.c \
+					$(SOFTWARE_DIR)/arch/verify/verify_message.c \
+					$(SOFTWARE_DIR)/arch/verify/verify_slave.c \
+					$(SOFTWARE_DIR)/arch/verify/verify_register_handle.c \
+					$(SOFTWARE_DIR)/log_uart/log_uart_config.c \
+					./main.c 
+					
+					
+
+# ---------------------------------------------------------------------------------------
+SORCE_INCLUDE :=	-I $(SOFTWARE_DIR)/arch/common/include \
+					-I $(SOFTWARE_DIR)/arch/core/include \
+					-I $(SOFTWARE_DIR)/arch/driver/include \
+					-I $(SOFTWARE_DIR)/arch/startup/include \
+					-I $(SOFTWARE_DIR)/arch/verify \
+					-I $(SOFTWARE_DIR)/arch/ram \
+					-I $(SOFTWARE_DIR)/log_uart \
+					-L $(SOFTWARE_DIR)/arch//scripts 
+
+# ---------------------------------------------------------------------------------------
+SOURCE_STARTUP :=     $(SOFTWARE_DIR)/arch/startup/GCC/startup_BR00x.s 
+S_LD           :=    -T $(SOFTWARE_DIR)/arch/scripts/cm3ds.ld	
+S_LD_MEM       :=    -T $(SOFTWARE_DIR)/arch/scripts/cm3ds_m.ld	
+DEFINE_STR	   :=	 -D__STACK_SIZE=0x1000 -D__HEAP_SIZE=0x1000  
+
+DEFIND_SINGLE  :=    -DCORTEX_M3 -DBR003 -DBR_CASE_SPLIT -DSINGLE -DBR_CONFIG_TB
+DEFIND_DUAL    :=    -DCORTEX_M3 -DBR003 -DBR_CASE_SPLIT -DBR_MASTER -DBR_SLAVE -DBR_DUAL -DBR_CONFIG_TB
+
+# ---------------------------------------------------------------------------------------
+# gcc
+
+all:
+	@make $(OUTDIR)/$(TESTNAME).bin
+
+$(OUTDIR)/$(TESTNAME).bin: $(PR_SRC_FILE) $(PR_HAD_FILE) $(SORCE_FILE)
+	@make compile
+
+# ------------------------------------------------------------------
+ifeq ($(findstring scan_ram_back_half_of,$(TESTNAME)),scan_ram_back_half_of)
+compile: sgl_m
+	@echo Single compile completed.
+# ------------------------------------------------------------------
+else ifeq ($(findstring s_1,$(TESTNAME)),s_1)
+compile: sgl
+	@echo single compile completed.
+# ------------------------------------------------------------------
+else ifeq ($(findstring s_2,$(TESTNAME)),s_2)
+compile: sgl
+	@echo single compile completed.
+# ------------------------------------------------------------------
+else ifeq ($(findstring d_1_,$(TESTNAME)),d_1_)
+compile: dul
+	@echo dual compile completed.
+# ------------------------------------------------------------------
+else ifeq ($(findstring d_flash,$(TESTNAME)),d_flash)
+compile: dul
+	@echo dual compile completed.
+# ------------------------------------------------------------------
+else ifeq ($(findstring flash,$(TESTNAME)),flash)
+compile: sgl
+	@echo dual compile completed.
+# ------------------------------------------------------------------
+
+
+else
+compile: 
+	@echo  "Make targer error, It has to be the right rules."
+
+endif
+# ---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------	
+	
+# ---------------------------------------------------------------------------------------	
+sgl:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFIND_SINGLE) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ)
+# ---------------------------------------------------------------------------------------
+dul:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFIND_DUAL)   $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ)
+# ---------------------------------------------------------------------------------------
+sgl_m:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFIND_SINGLE) $(S_LD_MEM) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ) 
+# ---------------------------------------------------------------------------------------
+elf:
+	$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFIND_SINGLE) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf	
+# ---------------------------------------------------------------------------------------
+bin : elf
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME).bin
+# ---------------------------------------------------------------------------------------
+hex : bin
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME).hex
+# ---------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------
+define  GNU_OBJ
+	# Generate disassembly code
+	$(GNU_OBJDUMP) -S $(OUTDIR)/$(TESTNAME).elf > $(OUTDIR)/$(TESTNAME).lst
+	# Generate binary file
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME).bin
+	# Generate hex file
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME).hex
+	#loadbin.exe $(OUTDIR)/$(TESTNAME).bin
+	../../../tools/sh/flashbin2hex.csh $(OUTDIR)/$(TESTNAME).bin
+    @chmod 755 flash.hex
+	$(call GNU_FLASH)
+endef
+
+# ---------------------------------------------------------------------------------------
+ifeq ($(findstring d_flash,$(TESTNAME)),d_flash)
+define  GNU_FLASH
+	@cat flash.hex  > ../flash_svr.hex 
+	@cat flash.hex  > ../flash_clt.hex 
+
+endef
+else ifeq ($(findstring flash,$(TESTNAME)),flash)
+define  GNU_FLASH
+	@cat flash.hex  > ../flash.hex
+
+endef
+else
+endif
+# ---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+
+
+
+.PHONY:clean
+clean: 
+	@rm -rf *.hex ;
+	@rm -rf *.lst ;
+	@rm -rf *.elf ;
+	@rm -rf *.bin ;
+	@rm -rf *.vmf ;
+
+
+.PHONY:clean_nbin
+clean_nbin : 
+	@rm -rf *.hex ;
+	@rm -rf *.lst ;
+	@rm -rf *.elf ;
+
+
+.PHONY:clean_nhex
+clean_nhex : 
+	@rm -rf *.lst ;
+	@rm -rf *.elf ;
+	@rm -rf *.bin ;
+
+
+
+.PHONY:clean_
+clean_ :
+	@rm -rf *.o
+	@if [ -e $(TESTNAME).hex ] ; then \
+	  rm -rf $(TESTNAME).hex ; \
+	fi
+	@if [ -e $(TESTNAME).lst ] ; then \
+	  rm -rf $(TESTNAME).lst ; \
+	fi
+	@if [ -e $(TESTNAME).elf ] ; then \
+	  rm -rf $(TESTNAME).elf ; \
+	fi
+	@if [ -e $(TESTNAME).bin ] ; then \
+	  rm -rf $(TESTNAME).bin ; \
+	fi
+	@rm -rf *.crf
+	@rm -rf *.plg
+	@rm -rf *.tra
+	@rm -rf *.htm
+	@rm -rf *.map
+	@rm -rf *.dep
+	@rm -rf *.d
+	@rm -rf *.lnp
+	@rm -rf *.bak
+	@rm -rf *.lst
+	@rm -rf *.axf
+	@rm -rf *.sct
+	@rm -rf *.__i
+	@rm -rf *._ia

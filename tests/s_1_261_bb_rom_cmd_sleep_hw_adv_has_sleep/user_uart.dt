@@ -1,0 +1,61 @@
+#the file is UART Send data
+
+###############################################################################################
+# "#"   annotation
+# "//"  annotation
+# "$" cmd:	
+#         bclk[]: Set baud clock  ($bclk[918000])
+#         buad[]: Set baud rate     (4 octal def 921600)  It's only divisble by 921600
+#         time[]: Wait time (ms)    (2 octal)
+#         str[]:  Send string
+#         hex[]:  Send hex          (octal send)
+#         disRFt[]: Set  dispaly Rx format     (0:hex 1:str  def:1)
+#         disTFt[]: Set  dispaly Tx format     (0:hex 1:str  def:1)
+#         disRn[]: Set RX dispaly    (0:disable 1:enable  def:1)
+#         disTn[]: Set Tx dispaly    (0:disable 1:enable  def:0)
+#         uRXTmo[]: Set RX timeout   (def:4 (0.5ms) -> 2ms)
+#
+#         stop[ ]:  Stop Test
+#         uFastTx[]:  Fast Tx Function
+#
+# meiger
+###############################################################################################
+$bclk[14400]
+$baud[115200]          //1800
+
+$uRXTmo[4]
+$disRn[1]
+$disTn[1]
+$time[3]
+
+$disRFt[0]
+$disTFt[0]
+
+$uFastTx[1]
+
+$time[200]
+$time[30]
+$hex[01,03,0c,00]                                                                                                    //reset
+
+$time[200]
+$time[30]
+$hex[01,06,20,0F,28,00,28,00,00,00,00,00,00,00,00,00,00,07,00]                                                       //BLE Set 1M ADV Param
+
+$time[200]
+$time[30]
+$hex[01,08,20,20,03,02,01,02,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00]    //BLE Set 1M ADV Data
+
+$time[200]
+$time[30]
+$hex[01,0A,20,01,01]                                                                                                  //BLE Set 1M ADV Enable
+
+$time[100]
+$time[100]
+$stop[1]
+
+
+
+
+
+
+

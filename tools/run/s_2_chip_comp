@@ -1,0 +1,16 @@
+#!/bin/bash
+
+username=`whoami`
+timestamp=`date +%Y.%m.%d_%H:%M:%S`
+dir=`pwd`
+dir_name=${dir##*/}
+dir_tral=${dir_name#*n}
+
+echo $dir_tral
+rm -f .start.vcs_build_uvm_chip vcs_build_uvm_chip
+make vcs_build_uvm_chip \
+ENABLE_UVM=1 \
+ENABLE_UPF_FLOW=1 \
+TC=s_2_uvm_chip \
+VCS_BUILD_NAME=uvm_chip \
+WORK_DIR=$dir/../work$dir_tral

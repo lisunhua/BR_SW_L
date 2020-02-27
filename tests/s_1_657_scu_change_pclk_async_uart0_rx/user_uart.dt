@@ -1,0 +1,69 @@
+#the file is UART Send data
+
+###############################################################################################
+# "#"   annotation
+# "//"  annotation
+# "$" cmd:	
+#         bclk[]: Set baud clock  ($bclk[918000])
+#         buad[]: Set baud rate     (4 octal def 921600)  It's only divisble by 921600
+#         time[]: Wait time (ms)    (2 octal)
+#         str[]:  Send string
+#         hex[]:  Send hex          (octal send)
+#         disRFt[]: Set  dispaly Rx format     (0:hex 1:str  def:1)
+#         disTFt[]: Set  dispaly Tx format     (0:hex 1:str  def:1)
+#         disRn[]: Set RX dispaly    (0:disable 1:enable  def:1)
+#         disTn[]: Set Tx dispaly    (0:disable 1:enable  def:0)
+#         uRXTmo[]: Set RX timeout   (def:4 (0.5ms) -> 2ms)
+#
+#         stop[ ]:  Stop Test
+#         uFastTx[]:  Fast Tx Function
+#
+# meiger
+###############################################################################################
+$bclk[916000]
+$baud[115200]
+
+$uRXTmo[4]
+$disRn[1]
+$disTn[1]
+$time[3]
+
+$uFastTx[1]
+
+
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+$time[100]
+$str[0123456789]  
+
+
+
+
+$time[50]
+$time[10]
+$stop[1]
+
+
+
+
+
+
+

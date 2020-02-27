@@ -1,0 +1,9 @@
+run 10us
+force {soc_tb.u_agc_sim_m.pad_load_depth} 32'h821
+force {soc_tb.u_agc_sim_m.IQdata_depth} 32'h1ac6b
+force {soc_tb.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_rw_btdm_top.u_rw_ble_core.u_rw_ble_core_cntl.u_rw_ble_packet_cntl.u_rw_ble_packet_cntl_main_fsm.crc_init_value[23:0]} 24'h931ec3
+force {soc_tb.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_btdm50_mdm_core.corr_code[63:0]} 64'h88a334ae
+force  soc_tb.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_rx_front_top.derot_bypass 0
+force soc_tb.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_rw_btdm_top.u_rw_bt_reg.int_whitdsb 0
+run 50ms
+exit

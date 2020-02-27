@@ -1,0 +1,176 @@
+#### Dual SW #######################################################################################
+d_1_sw_run d_1_701_hello_dual_hello  
+#######################################
+d_1_sw_run d_1_701_uart0_dual_uart0_to_uart0  
+d_1_sw_run d_1_711_uart1_dual_uart1_to_uart1  
+#######################################
+d_1_sw_run d_1_761_i2c_dual_i2c_master_read_slave_interrupt_receive  
+d_1_sw_run d_1_762_i2c_dual_i2c_slave_interrupt_read_master  
+
+#### Signle SW #####################################################################################
+s_1_sw_run s_1_000_cpu_single_hello 
+s_1_sw_run s_1_005_cpu_single_uart1_hello 
+#######################################
+s_1_sw_run s_1_001_scu_change_test_mode_get_status  
+s_1_sw_run s_1_003_scu_scan_swd_pin 
+s_1_sw_run s_1_004_scu_remap_ram 
+#######################################
+s_1_sw_run s_1_101_mem_scan_ram_back_half_of_s_bus  
+s_1_sw_run s_1_102_mem_scan_ram_before_half_of_s_bud
+s_1_sw_run s_1_103_mem_scan_ram_back_half_of_d_bus 
+s_1_sw_run s_1_104_mem_scan_ram_before_half_of_d_bud 
+s_1_sw_run s_1_105_mem_scan_rom_and_write 
+s_1_sw_run s_1_106_mem_scan_rom 
+#######################################
+s_1_sw_run s_1_303_scu_scan_test_mode_func_3_5
+s_1_sw_run s_1_304_scu_sacn_padcfg
+#######################################
+s_1_sw_run s_1_401_gpio_gpio_all_output_high 
+s_1_sw_run s_1_402_gpio_gpio_all_output_low 
+s_1_sw_run s_1_403_gpio_gpio_all_output_many_times_to_flip 
+s_1_sw_run s_1_404_gpio_gpio_all_input_and_read_all_pin  
+s_1_sw_run s_1_405_gpio_gpio_all_input_and_Interrupt_receiving_all_pin 
+s_1_sw_run s_1_406_gpio_gpio_half_output_and_read_half_pin  
+s_1_sw_run s_1_407_gpio_gpio_half_output_and_interrupt_receiving_half_pin
+#######################################
+s_1_sw_run s_1_501_rtc_rtc_count_and_switch_count_and_change_clock
+s_1_sw_run s_1_502_rtc_rtc_count_and_no_switch_count_and_interrupt_load_count 
+s_1_sw_run s_1_503_rtc_rtc_count_and_no_switch_count_and_interrupt_no_load_count 
+#######################################
+s_1_sw_run s_1_601_scu_get_ana_register 
+s_1_sw_run s_1_602_scu_set_ana_register 
+s_1_sw_run s_1_603_scu_scan_div_register 
+s_1_sw_run s_1_604_scu_check_scu_default_val 
+s_1_sw_run s_1_605_scu_scu_wp_register_scan 
+s_1_sw_run s_1_611_scu_reset_all_ip 
+s_1_sw_run s_1_612_scu_reset_all_ip_check_disturb 
+s_1_sw_run s_1_613_scu_cpu_core_reset 
+s_1_sw_run s_1_614_scu_cpu_nvic_reset 
+s_1_sw_run s_1_621_scu_scan_h_p_clk_set 
+s_1_sw_run s_1_622_scu_change_pclk_delay_resert_uart0_tx 
+s_1_sw_run s_1_623_scu_change_pclk_no_delay_resert_uart0_tx 
+s_1_sw_run s_1_624_scu_timers_run_to_stop_to_run_and_setp_reset 
+s_1_sw_run s_1_625_scu_check_dpll_to_div_hclk 
+s_1_sw_run s_1_626_scu_clock_change_synchronization 
+s_1_sw_run s_1_627_scu_clock_change_asynchronization 
+s_1_sw_run s_1_628_scu_h_p_clk_96_to_pclk
+s_1_sw_run s_1_629_scu_h_p_clk_96_no_to_pclk 
+s_1_sw_run s_1_62a_scu_clock_switch_all_ip 
+s_1_sw_run s_1_62b_scu_change_clock 
+s_1_sw_run s_1_62c_scu_SPI1_SPI0_WDT_I2s_RTC_div 
+s_1_sw_run s_1_62e_scu_pclk_change 
+#######################################
+s_1_sw_run s_1_651_scu_32k_sleep_no_awaken
+s_1_sw_run s_1_652_scu_32k_sleep_awaken 
+s_1_sw_run s_1_653_scu_32k_sleep_no_awaken 
+s_1_sw_run s_1_654_scu_32k_sleep_awaken 
+#######################################
+s_1_sw_run s_1_701_uart0_uart0_tx_cts_no_open
+s_1_sw_run s_1_702_uart0_uart0_tx_cts_open 
+s_1_sw_run s_1_703_uart0_uart0_tx_cts_rts_open 
+s_1_sw_run s_1_704_uart0_uart0_osc_tx 
+s_1_sw_run s_1_705_uart0_uart0_tx_no_config_rx 
+s_1_sw_run s_1_711_uart1_uart1_tx 
+s_1_sw_run s_1_712_uart1_uart0_tx_to_uart1_rx_loop_interrupt 
+s_1_sw_run s_1_713_uart1_uart1_tx_to_uart1_rx_loop_interrupt 
+s_1_sw_run s_1_714_uart1_uart1_tx_to_uart1_rx_loop_interrupt_and_flow_control 
+s_1_sw_run s_1_715_uart1_uart1_tx_to_uart1_rx_loop_interrupt_and_no_config_uart1_rx 
+#######################################
+s_1_sw_run s_1_731_spim1_spim1_tx
+#######################################
+s_1_sw_run s_1_761_i2c_i2c_tx 
+#######################################
+s_1_sw_run s_1_7a1_wdt_wdt_count_reset 
+s_1_sw_run s_1_7a2_wdt_wdt_count_interrupt_reset 
+s_1_sw_run s_1_7a3_wdt_wdt_reset 
+
+#### Signle UVM_CHIP+SW ############################################################################
+s_2_chip_run s_2_404_gpio_gpio_scan_regsiter 	chip_gpio_701
+s_2_chip_run s_2_501_rtc_rtc_scan_regsiter 	chip_rtc_1710 
+s_2_chip_run s_2_701_uart0_uart0_scan_regsiter  chip_uart0 
+s_2_chip_run s_2_711_uart1_uart1_scan_regsiter  chip_uart1_510 
+s_2_chip_run s_2_731_spim1_spim1_scan_regsiter  chip_spim1_1110  
+s_2_chip_run s_2_761_i2c_i2c_scan_regsiter 	chip_i2c_d10 
+s_2_chip_run s_2_7a1_wdt_wdt_scan_regsiter	chip_wdt_1b10
+
+#### Signle UVM_CHIP ###############################################################################
+s_2_chip_run s_0_610_scu_rst	 nlp_reset 
+s_2_chip_run s_0_620_scu_clk_en	 nlp_clk_en 
+s_2_chip_run s_0_621_scu_clk_sdc nlp_clk_sdc 
+
+#### Signle SV #####################################################################################
+s_3_300_run s_3_300_iomux_function
+s_3_301_run s_3_301_iomux_testmode
+
+#### Dual BB## #####################################################################################
+d_1_sw_run d_1_200_bb_lm
+
+d_1_bb_run d_1_200_bb_app 2-EV3 300
+#d_1_bb_run d_1_200_bb_app DM1 100
+#d_1_bb_run d_1_200_bb_app DH1 100
+
+#d_1_bb_run d_1_200_bb_app AUX1 100
+#d_1_bb_run d_1_200_bb_app DM3 100
+#d_1_bb_run d_1_200_bb_app DH3 100
+d_1_bb_run d_1_200_bb_app DM5 100
+d_1_bb_run d_1_200_bb_app DH5 100
+d_1_bb_run d_1_200_bb_app 2-DH1 100
+
+d_1_bb_run d_1_200_bb_app 2-DH3 100
+d_1_bb_run d_1_200_bb_app 2-DH5 100
+d_1_bb_run d_1_200_bb_app 3-DH1 100
+d_1_bb_run d_1_200_bb_app 3-DH3 100
+d_1_bb_run d_1_200_bb_app 3-DH5 100
+
+d_1_bb_run d_1_200_bb_app HV1 100
+d_1_bb_run d_1_200_bb_app HV2 100
+d_1_bb_run d_1_200_bb_app HV3 100
+d_1_bb_run d_1_200_bb_app EV3 100
+d_1_bb_run d_1_200_bb_app EV4 100
+d_1_bb_run d_1_200_bb_app EV5 100
+
+d_1_bb_run d_1_200_bb_app 2-EV3 100
+d_1_bb_run d_1_200_bb_app 2-EV5 100
+d_1_bb_run d_1_200_bb_app 3-EV3 100
+d_1_bb_run d_1_200_bb_app 3-EV5 100
+#########################################################
+d_1_bb_run d_1_200_bb_app DM1 0F
+d_1_bb_run d_1_200_bb_app DH1 0F
+
+d_1_bb_run d_1_200_bb_app AUX1 0F
+d_1_bb_run d_1_200_bb_app DM3 0F
+d_1_bb_run d_1_200_bb_app DH3 0F
+d_1_bb_run d_1_200_bb_app DM5 0F
+d_1_bb_run d_1_200_bb_app DH5 0F
+d_1_bb_run d_1_200_bb_app 2-DH1 0F
+
+d_1_bb_run d_1_200_bb_app 2-DH3 0F
+d_1_bb_run d_1_200_bb_app 2-DH5 0F
+d_1_bb_run d_1_200_bb_app 3-DH1 0F
+d_1_bb_run d_1_200_bb_app 3-DH3 0F
+d_1_bb_run d_1_200_bb_app 3-DH5 0F
+
+d_1_bb_run d_1_200_bb_app HV1 0F
+d_1_bb_run d_1_200_bb_app HV2 0F
+d_1_bb_run d_1_200_bb_app HV3 0F
+d_1_bb_run d_1_200_bb_app EV3 0F
+d_1_bb_run d_1_200_bb_app EV4 0F
+d_1_bb_run d_1_200_bb_app EV5 0F
+
+d_1_bb_run d_1_200_bb_app 2-EV3 0F
+d_1_bb_run d_1_200_bb_app 2-EV5 0F
+d_1_bb_run d_1_200_bb_app 3-EV3 0F
+d_1_bb_run d_1_200_bb_app 3-EV5 0F
+
+###########################################
+d_1_ble_run hex_dual_ble_adv_scan
+d_1_ble_run hex_dual_ble_dtm
+d_1_ble_run hex_dual_ble_dtm_2m
+d_1_ble_run hex_dual_ble_dtm_lrs2
+d_1_ble_run hex_dual_ble_dtm_lrs8
+
+################################################################################################
+d_1_sw_run hex_dual_soc_app_case3_20ms
+
+########## END #################################################################################
+

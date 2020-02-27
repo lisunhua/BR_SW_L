@@ -1,0 +1,2 @@
++define+SV_TEST
+./inputs/soc_top/sim/tests/s_1_002_scu_remap_flash/user_def.sv

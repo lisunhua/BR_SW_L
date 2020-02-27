@@ -1,0 +1,4 @@
+run 1us
+force CLT.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_rx_front_top.derot_bypass 1
+force SVR.DUT.u_dig_top.u_bb_domain.u_rw_btdm_top_wrap.u_rx_front_top.derot_bypass 1 
+run 

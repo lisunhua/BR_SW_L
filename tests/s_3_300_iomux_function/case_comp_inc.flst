@@ -1,0 +1,6 @@
++define+SV_TEST
+./inputs/soc_top/rtl/top/soc_defines.v
+./inputs/soc_top/sim/tests/s_3_300_iomux_function/iomux_function_default.sv
+./inputs/soc_top/sim/tests/s_3_300_iomux_function/iomux_function.sv
+./inputs/soc_top/sim/tests/s_3_300_iomux_function/pad0_test.sv
+./inputs/soc_top/sim/tests/s_3_300_iomux_function/user_def.sv

@@ -1,0 +1,54 @@
+#!/bin/csh
+set index=1
+set pt=55
+set index_valid=0
+set test_type=(DM1 DH1 AUX1 DM3 DH3 DM5 DH5 2-DH1 2-DH3 2-DH5 3-DH1 3-DH3 3-DH5 HV1 HV2 HV3 EV3 EV4 EV5 2-EV3 2-EV5 3-EV3 3-EV5)
+set i=0
+
+set dir=`pwd`
+set dir_trail=`pwd | awk -F "/" '{print $NF}'| awk -F "_" '{print $NF}'`
+if ( $dir_trail == "run") then
+	set dir_trail = ""
+else
+	set dir_trail = "_"$dir_trail
+endif
+
+echo $dir
+echo $dir_trail
+
+
+if( $#argv == 0 ) then
+	echo "error"
+	exit
+endif
+
+if ( $#argv == 2 ) then
+	foreach pkt_type ( $test_type )
+		if ( $pkt_type == $2 ) then
+			set index_valid=1
+			break
+		endif
+		@ index++
+	end
+else if ( $#argv == 3 ) then
+	foreach pkt_type ( $test_type )
+		if ( $pkt_type == $2 ) then
+			set index_valid=1
+			break
+		endif
+		@ index++
+	end
+	set pt = $3
+endif
+
+if ( index_valid == 0 ) then
+	index=1
+endif
+echo "Parameters: [$index] --PacketType=$test_type[$index] Pattern=0x$pt"
+
+rm -rf .start.vcs_sim_d_bb.$1$2$3  vcs_sim_d_bb.$1$2$3
+make vcs_sim_d_bb.$1$2$3 RF_TEST=$2 RF_DATE=$3  TC=$1 \
+PKT=$index PT=$pt \
+VCS_BUILD_NAME=sw \
+ENABLE_UPF_FLOW=1 \
+WORK_DIR=$dir/../work$dir_trail

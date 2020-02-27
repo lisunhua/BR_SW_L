@@ -1,0 +1,2 @@
++define+SV_TEST
+./inputs/soc_top/sim/tests/s_1_007_scu_scan_xip_flash/user_def.sv

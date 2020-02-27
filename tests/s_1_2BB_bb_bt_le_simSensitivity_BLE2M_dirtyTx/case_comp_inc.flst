@@ -1,0 +1,2 @@
++define+AGC_SIM_ON +define+SV_TEST
+./inputs/soc_top/sim/tests/s_1_2BB_bb_bt_le_simSensitivity_BLE2M_dirtyTx/user_def.sv

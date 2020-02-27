@@ -1,0 +1,76 @@
+#!/bin/bash
+
+dir=`pwd`
+dir_name=${dir##*/}
+#dir_tral=${dir_name#*n}
+echo "Scrips Start -> : $dir_name".
+WORK_PATCH=../../../../../work_rtl/
+WORK_NAME=vcs_build_
+SIMV_BUAL=""
+DUAL_SIMV=vcs_sim_d.
+SINGLE_SIMV=vcs_sim.
+WORK=$SINGLE_SIMV
+
+# if [ -d "copyFile.lt" ]; then
+if [[ -f  ./copyFile.lt ]];then #copyFile.lt
+	echo  find copyFile.lt
+else
+	echo No Need Copy;
+	exit;
+fi
+
+if [[ ${dir_name%%_*} == "d" ]]; then
+  # echo "DUAl Simv"
+  SIMV_BUAL+=dual_
+  WORK=$DUAL_SIMV
+fi
+
+if [ -d  "case_comp_inc.flst" ] ;then 
+	# echo "find the '.flst' file."
+	# echo "The Case Name [$dir_name]"
+	SIMV_BUAL+=$dir_name
+else 
+	# echo "The Case is not Special"
+	SIMV_BUAL+=${dir_name:0:3}
+fi
+
+function copy_file(){
+	echo $1
+	if [[ -f $1 ]] ; then
+		cat $1 >  $WORK_PATCH$WORK$dir_name/$1
+	fi
+}
+
+# echo "WORK_NAME->[$WORK$dir_name]"
+CURRENT_TIMER=`date +%s`
+# echo "current_time -:$CURRENT_TIMER"
+COUNT_TOUT=0
+
+while [[ true ]]; do
+	if [[ -d $WORK_PATCH$WORK$dir_name ]] ; then
+		WORK_time=`stat -c %Y $WORK_PATCH$WORK$dir_name`
+		# echo "work_patch->$dir_name:$WORK_time :[$COUNT_TOUT]:$CURRENT_TIMER"
+
+		if [ $[ $WORK_time - $CURRENT_TIMER ] -gt 0 ]; then
+			# echo "work_patch   >  current_time"
+			sleep 5
+			while read cmdline
+			do
+				copy_file $cmdline 
+				# echo $cmdline
+			done < $1
+
+		break;
+		# else
+			# echo "current_time >  work_patch"
+		fi
+	fi
+	# Sleep  wait exit.
+	sleep 5
+	COUNT_TOUT=$[COUNT_TOUT+1]
+
+	if [ $COUNT_TOUT -gt 60 ] ; then
+		break;
+	fi
+done
+

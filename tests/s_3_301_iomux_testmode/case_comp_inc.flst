@@ -1,0 +1,4 @@
++define+SV_TEST
+./inputs/soc_top/sim/tb/inc/chip_def.inc
+./inputs/soc_top/sim/tests/s_3_301_iomux_testmode/iomux_test_mode.sv
+./inputs/soc_top/sim/tests/s_3_301_iomux_testmode/user_def.sv

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+username=`whoami`
+timestamp=`date +%Y.%m.%d_%H:%M:%S`
+dir=`pwd`
+dir_name=${dir##*/}
+dir_tral=${dir_name#*n}
+
+echo "shell Run!";
+echo "pam: $0";
+echo "pam: $1";
+
+rm -rf .start.vcs_sim.$1  vcs_sim.$1
+
+make vcs_sim.$1 TC=$1  \
+VCS_BUILD_NAME=s3300 \
+WORK_DIR=$dir/../work$dir_tral

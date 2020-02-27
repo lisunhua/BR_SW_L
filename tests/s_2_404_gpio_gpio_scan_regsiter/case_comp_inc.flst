@@ -1,0 +1,4 @@
++define+UVM_CHIP +define+SV_TEST  
+-f ./inputs/soc_top/sim/tb/uvm_tb/chip/uvm_chip.flst
+./inputs/soc_top/sim/tb/inc/chip_def.inc
+./inputs/soc_top/sim/tests/s_2_404_gpio_gpio_scan_regsiter/user_def.sv

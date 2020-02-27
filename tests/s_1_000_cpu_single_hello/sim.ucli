@@ -1,0 +1,27 @@
+proc force_sig { sig value } {
+  if [catch {force $sig $value}] {
+    puts "ERROR: force $sig failed"
+    exit
+  }
+}
+
+#set TC $env(_TC_NAME)
+#puts "Start simulation: $TC "
+#fsdbDumpfile $env(_TC_NAME).fsdb
+#fsdbAutoSwitchDumpfile 1000 $env(_TC_NAME).fsdb 200 
+#fsdbDumpvars 0 
+# memory -read soc_tb.DUT.u_dig_top.u_ram0_0.uut.mem_core_array -fill 0
+# memory -read soc_tb.DUT.u_dig_top.u_ram0_1.uut.mem_core_array -fill 0
+# memory -read soc_tb.DUT.u_dig_top.u_ram1_2k.uut.mem_core_array -fill 0
+# memory -read soc_tb.DUT.u_dig_top.u_ram1_4k.uut.mem_core_array -fill 0
+# memory -read soc_tb.DUT.u_dig_top.u_ram1_8k.uut.mem_core_array -fill 0
+#if {[file exist ./inputs/soc/sw/testcodes/$TC/sim.ucli]} {
+#  puts "Load $TC specific UCLI script ... "
+#  source ./inputs/soc/sw/testcodes/$TC/sim.ucli
+#  puts "Exit $TC specific UCLI script ... "
+#}
+#
+
+run  3ms
+exit
+

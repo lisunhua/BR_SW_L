@@ -1,0 +1,88 @@
+#the file is UART Send data
+
+###############################################################################################
+# "#"   annotation
+# "//"  annotation
+# "$" cmd:	
+#         bclk[]: Set baud clock  ($bclk[918000])
+#         buad[]: Set baud rate     (4 octal def 921600)  It's only divisble by 921600
+#         time[]: Wait time (ms)    (2 octal)
+#         str[]:  Send string
+#         hex[]:  Send hex          (octal send)
+#         disRFt[]: Set  dispaly Rx format     (0:hex 1:str  def:1)
+#         disTFt[]: Set  dispaly Tx format     (0:hex 1:str  def:1)
+#         disRn[]: Set RX dispaly    (0:disable 1:enable  def:1)
+#         disTn[]: Set Tx dispaly    (0:disable 1:enable  def:0)
+#         uRXTmo[]: Set RX timeout   (def:4 (0.5ms) -> 2ms)
+#
+#         stop[ ]:  Stop Test
+#         uFastTx[]:  Fast Tx Function
+#
+# meiger
+###############################################################################################
+
+$bclk[14400]
+$baud[115200]     //1800
+
+$uRXTmo[4]
+$disRn[1]
+$disTn[1]
+$time[3]
+
+$disRFt[0]
+$disTFt[0]
+
+$uFastTx[1]
+
+$time[200]
+$time[90]
+$hex[01,03,0c,00]  //reset
+
+// channel 0
+$time[200]
+$time[90]
+$hex[01,1D,20,01,00]  //channel 0 RX
+$time[200]
+$time[90]
+$hex[01,1F,20,00]     //channel 0 END
+
+// channel 9
+$time[200]
+$time[90]
+$hex[01,1D,20,01,09]  //channel 09 RX
+$time[200]
+$time[90]
+$hex[01,1F,20,00]     //channel 09 END
+
+// channel 22
+$time[200]
+$time[90]
+$hex[01,1D,20,01,22]  //channel 22 RX
+$time[200]
+$time[90]
+$hex[01,1F,20,00]     //channel 22 END
+
+// channel 1
+$time[200]
+$time[90]
+$hex[01,1D,20,01,01]  //channel 1 RX
+$time[200]
+$time[90]
+$hex[01,1F,20,00]     //channel 1 END
+
+
+
+
+
+$time[50]
+$time[200]
+$time[200]
+$time[200]
+$stop[1]
+
+
+
+
+
+
+

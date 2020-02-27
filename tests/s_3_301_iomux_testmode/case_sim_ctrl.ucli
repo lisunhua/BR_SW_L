@@ -1,0 +1,3 @@
+set VDDPIN [ search -scope soc_tb.DUT TE ]
+flowp_force1 $VDDPIN
+run

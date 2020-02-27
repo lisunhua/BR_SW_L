@@ -1,0 +1,3 @@
+run 10ns
+flowp_force1 soc_tb.DUT.u_dig_top.u_aon_domain.u_scu.u_clk_gen.u_i2ss_clk_rst_sw_ctrl.u_clk_gate.en
+run

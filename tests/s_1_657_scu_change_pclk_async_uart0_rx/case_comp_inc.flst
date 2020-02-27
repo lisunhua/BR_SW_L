@@ -1,0 +1,2 @@
++define+VERIFY_CMD +define+SV_TEST
+./inputs/soc_top/sim/tests/s_1_657_scu_change_pclk_async_uart0_rx/user_def.sv

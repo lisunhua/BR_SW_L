@@ -1,0 +1,2 @@
+ +define+SV_TEST  +define+VERIFY_CMD
+./inputs/soc_top/sim/tests/d_1_24E_bb_rom_cmd_sleep_hw_roc_32k_wp_gpio/user_def.sv

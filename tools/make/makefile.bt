@@ -1,0 +1,178 @@
+# * @date    14. Augest 2018
+# * @version V1.0.0
+# * @author  MEIGER
+
+# Program file
+TESTNAME     = $(notdir $(PWD))
+OUTDIR       = ./
+#SOFTWARE DIRECTORY
+ARCH_DIR    	 = ../../sw/BT
+# ---------------------------------------------------------------------------------------
+# gcc options
+GNG_CC      = arm-none-eabi-gcc
+GNU_OBJDUMP = arm-none-eabi-objdump
+GNU_OBJCOPY = arm-none-eabi-objcopy
+
+include $(ARCH_DIR)/make/makefile.*
+# ---------------------------------------------------------------------------------------
+SOURCE_STARTUP :=       $(ARCH_DIR)/arch/startup/GCC/startup_BR8051Axx.s #$(ARCH_DIR)/arch/ll/rvds/ll.s  
+S_LD           :=    -T $(ARCH_DIR)/arch/scripts/gcc/cm3ds.ld 
+S_LD_MEM       :=    -T $(ARCH_DIR)/arch/scripts/gcc/cm3ds_m.ld	
+DEFINE_STR	   :=	 -D__STACK_SIZE=0x1000 -D__HEAP_SIZE=0x1000   
+
+# ---------------------------------------------------------------------------------------
+GNU_CC_FLAGS = -g -O1 -std=c99  -mthumb -mcpu=cortex-m3 --specs=nosys.specs \
+--specs=nano.specs -Wl,--gc-sections -D__STARTUP_CLEAR_BSS -w
+
+
+DEFIND_SINGLE    := -DVERIFY_SIMV  
+DEFIND_DUAL      := -DVERIFY_SIMV  
+SRC_FILE 	     := ./verify_main.c
+# ---------------------------------------------------------------------------------------
+#@../../tools/sh/checkFiles  copyFile.lt &
+# gcc
+
+all:
+	@make $(OUTDIR)/$(TESTNAME).bin
+	@if [ -e  "./user_uart.dt"     ] ;then if [ -e  "./UartCd.py" ] ;then python ./UartCd.py  user_uart.dt ; fi; fi
+	@if [ -e  "./user_uart_clt.dt" ] ;then if [ -e  "./UartCd.py" ] ;then python ./UartCd.py  user_uart_clt.dt uart_clt.cm ; fi; fi
+	@if [ -e  "./user_uart_svr.dt" ] ;then if [ -e  "./UartCd.py" ] ;then python ./UartCd.py  user_uart_svr.dt uart_svr.cm ; fi; fi
+	@if [ -e  "./GetForceData.py"  ] ;then python ../../tools/py/matDataGet.py ./ ; fi
+	
+
+$(OUTDIR)/$(TESTNAME).bin: $(SRC_FILE) $(SORCE_FILE)
+	@make compile
+
+ifeq ($(findstring bb_bt_br_lm,$(TESTNAME)),bb_bt_br_lm)
+compile: LMM LMS
+	@echo  "LMM AND LMS CPU"
+
+else ifeq ($(findstring bb_bt_br_sim,$(TESTNAME)),bb_bt_br_sim)
+compile: BR_RX
+	@echo  "BR RX CPU"
+	
+else ifeq ($(findstring bb_bt_le_agc,$(TESTNAME)),bb_bt_le_agc)
+compile: AGCLE
+	@echo  "AGC LE CPU"
+
+else ifeq ($(findstring bb_rom_usb,$(TESTNAME)),bb_rom_usb)
+compile: USB_C
+	@echo  "USB TL CPU"
+
+else ifeq ($(findstring bb_bt_le,$(TESTNAME)),bb_bt_le)
+compile: LE
+	@echo  "LE CPU"
+
+else ifeq ($(findstring bb_rom_cmd_sleep_hw,$(TESTNAME)),bb_rom_cmd_sleep_hw)
+compile: ROM_AUTO_32K
+	@echo  "ROM AUTO 32K CPU"
+
+else ifeq ($(findstring bb_rom_cmd,$(TESTNAME)),bb_rom_cmd)
+compile: ROM
+	@echo  "ROM CPU"
+
+else ifeq ($(findstring bb_bt_br,$(TESTNAME)),bb_bt_br)
+compile:  BR
+	@echo  "BR CPU"
+
+else 
+compile: 
+	@echo  "Make targer error, Mast contain 'bb_bt_le' or 'bb_bt_br' "
+endif
+
+test:
+	@echo "Test targer." 
+# ---------------------------------------------------------------------------------------	
+LE:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_LE) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ ) 
+# ---------------------------------------------------------------------------------------	
+USB_C:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_USB) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ ) 
+# ---------------------------------------------------------------------------------------	
+BR_RX:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_BR_RX) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ ) 	
+# ---------------------------------------------------------------------------------------	
+AGCLE:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_AGC) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ ) 
+
+# ---------------------------------------------------------------------------------------	
+BR:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_BR) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ)
+# ---------------------------------------------------------------------------------------	
+ROM_AUTO_32K:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_ROM_AUTO_32K) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ)
+
+# ---------------------------------------------------------------------------------------	
+ROM:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_ROM) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(call GNU_OBJ)
+# ---------------------------------------------------------------------------------------	
+LMM:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_BR_LMM) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(GNU_OBJDUMP) -S $(OUTDIR)/$(TESTNAME).elf > $(OUTDIR)/$(TESTNAME).lst
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME)_clt.bin
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME)_clt.hex
+	python ../../tools/py/SG_Bhex.py $(OUTDIR)/$(TESTNAME)_clt.bin
+# ---------------------------------------------------------------------------------------		
+LMS:
+	@$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(DEFIND_DUAL) $(SRC_FILE) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFINE_BT_BR_LMS) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf
+	$(GNU_OBJDUMP) -S $(OUTDIR)/$(TESTNAME).elf > $(OUTDIR)/$(TESTNAME).lst
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME)_svr.bin
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME)_svr.hex
+	python ../../tools/py/SG_Bhex.py $(OUTDIR)/$(TESTNAME)_svr.bin
+# ---------------------------------------------------------------------------------------
+elf:
+	$(GNG_CC) $(GNU_CC_FLAGS) $(SOURCE_STARTUP) $(SORCE_FILE) $(SORCE_INCLUDE) $(DEFINE_STR) $(DEFIND_SINGLE) $(S_LD) -o $(OUTDIR)/$(TESTNAME).elf	
+# ---------------------------------------------------------------------------------------
+bin : elf
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME).bin
+# ---------------------------------------------------------------------------------------
+hex : bin
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME).hex
+# ---------------------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------------------
+define  GNU_OBJ
+	# Generate disassembly code
+	$(GNU_OBJDUMP) -S $(OUTDIR)/$(TESTNAME).elf > $(OUTDIR)/$(TESTNAME).lst
+	# Generate binary file
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O binary $(OUTDIR)/$(TESTNAME).bin
+	# Generate hex file
+	$(GNU_OBJCOPY) -S $(OUTDIR)/$(TESTNAME).elf -O verilog $(OUTDIR)/$(TESTNAME).hex
+	#loadbin.exe $(OUTDIR)/$(TESTNAME).bin
+	python ../../tools/py/Bhex.py $(OUTDIR)/$(TESTNAME).bin
+endef
+
+# ---------------------------------------------------------------------------------------
+#	@if [ -e $(TESTNAME).elf ] ; then \
+#	  rm -rf $(TESTNAME).elf ; \
+# ---------------------------------------------------------------------------------------
+.PHONY:clean
+clean :
+	@rm -rf *.o
+	@rm -rf *.cm
+	@rm -rf *.hex  
+	@rm -rf *.lst  
+	@rm -rf *.elf  
+	@rm -rf *.bin 
+	@rm -rf *.crf
+	@rm -rf *.plg
+	@rm -rf *.tra
+	@rm -rf *.htm
+	@rm -rf *.map
+	@rm -rf *.dep
+	@rm -rf *.d
+	@rm -rf *.lnp
+	@rm -rf *.bak
+	@rm -rf *.lst
+	@rm -rf *.axf
+	@rm -rf *.sct
+	@rm -rf *.__i
+	@rm -rf *._ia

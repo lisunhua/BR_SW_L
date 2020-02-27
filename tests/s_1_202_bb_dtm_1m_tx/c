@@ -1,0 +1,9 @@
+#! /bin/bash
+
+
+
+rm BR* 
+
+cat /upload_data/lisunhua/dtm_tx_1M.bin  > BRDTM_1M_TX.bin
+python ../../tools/Bhex.py BRDTM_1M_TX.bin 
+

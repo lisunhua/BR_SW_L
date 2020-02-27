@@ -1,0 +1,4 @@
++define+SV_TEST
+./inputs/soc_top/sim/tb/inc/chip_def.inc
+./inputs/soc_top/sim/tests/s_3_900_ana_connect_dig/ana_connect_dig.sv
+./inputs/soc_top/sim/tests/s_3_900_ana_connect_dig/user_def.sv

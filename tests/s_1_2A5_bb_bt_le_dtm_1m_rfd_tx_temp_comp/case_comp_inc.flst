@@ -1,0 +1,2 @@
++define+VERIFY_RF_BLE +define+AGC_SIM_ON //+define+SV_TEST
+//./inputs/soc_top/sim/tests/s_1_2A5_bb_bt_le_dtm_1m_rfd_tx_temp_comp/user_def.sv

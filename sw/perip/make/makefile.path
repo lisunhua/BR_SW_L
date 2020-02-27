@@ -1,0 +1,204 @@
+
+
+PR_INC_INCLUDE   :=  \
+   -I $(SOFTWARE_DIR)/log_uart \
+   -I $(SOFTWARE_DIR)/arch/cmk \
+   -I $(SOFTWARE_DIR)/arch/ram \
+   -L $(SOFTWARE_DIR)/arch/scripts \
+   -I $(SOFTWARE_DIR)/arch/verify \
+   -I $(SOFTWARE_DIR)/arch/cmk/app \
+   -I $(SOFTWARE_DIR)/arch/cmk/barebones \
+   -I $(SOFTWARE_DIR)/arch/common/include \
+   -I $(SOFTWARE_DIR)/arch/core/include \
+   -I $(SOFTWARE_DIR)/arch/driver/include
+
+PR_SRC_FILE      :=  \
+    $(SOFTWARE_DIR)/arch/cmk/core_list_join.c \
+    $(SOFTWARE_DIR)/arch/cmk/core_main.c \
+    $(SOFTWARE_DIR)/arch/cmk/core_matrix.c \
+    $(SOFTWARE_DIR)/arch/cmk/core_state.c \
+    $(SOFTWARE_DIR)/arch/cmk/core_util.c \
+    $(SOFTWARE_DIR)/arch/cmk/app/BRapp.c \
+    $(SOFTWARE_DIR)/arch/cmk/barebones/core_portme.c \
+    $(SOFTWARE_DIR)/arch/cmk/barebones/cvt.c \
+    $(SOFTWARE_DIR)/arch/cmk/barebones/ee_printf.c \
+    $(SOFTWARE_DIR)/arch/common/src/cm_printf.c \
+    $(SOFTWARE_DIR)/arch/common/src/fputc.c \
+    $(SOFTWARE_DIR)/arch/common/src/qspi_icfg.c \
+    $(SOFTWARE_DIR)/arch/core/source/BR00x_nvic.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_clock.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_dma.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_example.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_gpio.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_i2c.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_i2c_eeprom.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_i2s.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_rf.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_rtc.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_soc.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_spi_flash.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_ssi.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_ssi_common.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_ssic.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_timers.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_uart.c \
+    $(SOFTWARE_DIR)/arch/driver/source/BR00x_wdt.c \
+    $(SOFTWARE_DIR)/arch/startup/system_BR002.c \
+    $(SOFTWARE_DIR)/arch/startup/system_BR003.c \
+    $(SOFTWARE_DIR)/arch/startup/system_BR005.c \
+    $(SOFTWARE_DIR)/arch/startup/system_BR1051Axx.c \
+    $(SOFTWARE_DIR)/arch/verify/RAM_main.c \
+    $(SOFTWARE_DIR)/arch/verify/test.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_main.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_master.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_message.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_register_handle.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_base.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_dma.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_gpio.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_i2c.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_i2s.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_rtc.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_scu.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_spi.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_timers.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_uart.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_usb.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_wdt.c \
+    $(SOFTWARE_DIR)/arch/verify/verify_test_bench.c \
+    $(SOFTWARE_DIR)/log_uart/log_uart_config.c
+
+PR_HAD_FILE      :=  \
+    $(SOFTWARE_DIR)/arch/cmk/coremark.h \
+    $(SOFTWARE_DIR)/arch/cmk/app/BRapp.h \
+    $(SOFTWARE_DIR)/arch/cmk/barebones/core_portme.h \
+    $(SOFTWARE_DIR)/arch/common/include/cm_printf.h \
+    $(SOFTWARE_DIR)/arch/common/include/qspi_icfg.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR002.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR003.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR005.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR00x_config.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR00x_nvic.h \
+    $(SOFTWARE_DIR)/arch/core/include/BR1051Axx.h \
+    $(SOFTWARE_DIR)/arch/core/include/core_cm3.h \
+    $(SOFTWARE_DIR)/arch/core/include/core_cmFunc.h \
+    $(SOFTWARE_DIR)/arch/core/include/core_cmInstr.h \
+    $(SOFTWARE_DIR)/arch/core/include/system_BR00x.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_clock.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_dma.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_dma_if.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_example.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_gpio.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_i2c.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_i2c_erom.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_i2c_if.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_i2s.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_rf.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_rtc.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_soc.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_spi_flash.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_ssi.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_ssi_common.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_ssi_if.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_ssic.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_ssic_if.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_timers.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_uart.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_wdt.h \
+    $(SOFTWARE_DIR)/arch/driver/include/BR00x_wdt_if.h \
+    $(SOFTWARE_DIR)/arch/ram/BR00x_rom.h \
+    $(SOFTWARE_DIR)/arch/verify/data.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_master.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_message.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_register_handle.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_base.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_dma.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_gpio.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_i2c.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_i2s.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_rtc.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_scu.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_spi.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_timers.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_uart.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_usb.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_slave_wdt.h \
+    $(SOFTWARE_DIR)/arch/verify/verify_test_bench.h \
+    $(SOFTWARE_DIR)/log_uart/log_uart_config.h
+
+PR_O_path        :=  \
+    core_list_join.o \
+    core_main.o \
+    core_matrix.o \
+    core_state.o \
+    core_util.o \
+    BRapp.o \
+    core_portme.o \
+    cvt.o \
+    ee_printf.o \
+    cm_printf.o \
+    fputc.o \
+    qspi_icfg.o \
+    BR00x_nvic.o \
+    BR00x_clock.o \
+    BR00x_dma.o \
+    BR00x_example.o \
+    BR00x_gpio.o \
+    BR00x_i2c.o \
+    BR00x_i2c_eeprom.o \
+    BR00x_i2s.o \
+    BR00x_rf.o \
+    BR00x_rtc.o \
+    BR00x_soc.o \
+    BR00x_spi_flash.o \
+    BR00x_ssi.o \
+    BR00x_ssi_common.o \
+    BR00x_ssic.o \
+    BR00x_timers.o \
+    BR00x_uart.o \
+    BR00x_wdt.o \
+    system_BR002.o \
+    system_BR003.o \
+    system_BR005.o \
+    system_BR1051Axx.o \
+    RAM_main.o \
+    test.o \
+    verify_main.o \
+    verify_master.o \
+    verify_message.o \
+    verify_register_handle.o \
+    verify_slave.o \
+    verify_slave_base.o \
+    verify_slave_dma.o \
+    verify_slave_gpio.o \
+    verify_slave_i2c.o \
+    verify_slave_i2s.o \
+    verify_slave_rtc.o \
+    verify_slave_scu.o \
+    verify_slave_spi.o \
+    verify_slave_timers.o \
+    verify_slave_uart.o \
+    verify_slave_usb.o \
+    verify_slave_wdt.o \
+    verify_test_bench.o \
+    log_uart_config.o
+
+#PR_ASM_SUP      :=  \
+    $(SOFTWARE_DIR)/arch/startup/startup_BR002.s \
+    $(SOFTWARE_DIR)/arch/startup/startup_BR1051Axx.s \
+    $(SOFTWARE_DIR)/arch/startup/ARM/startup_BR002.s \
+    $(SOFTWARE_DIR)/arch/startup/ARM/startup_BR1051Axx.s \
+    $(SOFTWARE_DIR)/arch/startup/ARM/system_BR003.s \
+    $(SOFTWARE_DIR)/arch/startup/GCC/startup_BR00x.s
+
+#PR_LIK_LD       :=  \
+   -T $(SOFTWARE_DIR)/arch/scripts/BR002.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/cm3ds.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/cm3ds_bootloader.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/cm3ds_m.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/lib-nosys.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/lib-rdimon.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/sections-nokeep.ld \
+   -T $(SOFTWARE_DIR)/arch/scripts/sections.ld

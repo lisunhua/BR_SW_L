@@ -1,0 +1,7 @@
++define+UVM_JTAG
+
+
+
+inputs/soc_top/sim/tb/uvm_tb/jtag/src/jtag_reset_if.sv 
+inputs/soc_top/sim/tb/uvm_tb/jtag/hdl/jtag_tb_mod.sv 
+

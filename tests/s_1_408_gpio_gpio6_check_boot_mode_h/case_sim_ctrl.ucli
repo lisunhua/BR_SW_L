@@ -1,0 +1,4 @@
+run 10us
+force  {soc_tb.DUT.GPIO[6]} 1
+run 10ms
+exit
